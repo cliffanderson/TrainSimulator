@@ -2,13 +2,22 @@ package src;
 
 
 public class Train {
-	public Train(){
-		//generate empty bag of passengers of size max capacity 
+	public Train(int startLocation){
+		passengers=new TeamLinkedBag<Passenger>();
+		location=startLocation;
 	}
-	public void getLocation(){
-		//return station ID
+	public int getLocation(){
+		return location;
 	}
-// location 
+	public TeamLinkedBag<Passenger> getPassengers(){
+		return passengers;
+	}
+	public void boadTrain(Passenger newPassenger){
+		passengers.add(newPassenger);
+	}
+	
+	
+int location; 
 // max capacity
-// bag of passengers 
+private TeamLinkedBag<Passenger> passengers;
 }

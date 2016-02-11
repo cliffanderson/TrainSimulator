@@ -1,18 +1,19 @@
 package src;
-import java.util.LinkedList;
+import java.util.Arrays;
 
 public class TrainRoute {
 	public TrainRoute(int NumofStations){
 		// generate a list of stations 
-		list =new LinkedList<Station>();
+		
+		route =new Station[NumofStations];
 		
 		for (int i=0;i<NumofStations;i++){
-			Station station = new Station(i);
-			list.push(station);
+			route[i]= new Station(i);
 		}
 	}
-	public LinkedList<Station> getRoute(){
-		return list;
+	public Station getRoute(int i){
+		return route[i];
 	}
-private LinkedList<Station> list;
+	
+private Station[] route;
 }
