@@ -3,8 +3,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		TrainRoute route= new TrainRoute(5);
-		
-		// place 2 trainsat start and end
+
+		// place 2 trains at start and end
 		// generate people to fill stations
 		
 		
