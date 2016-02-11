@@ -53,6 +53,10 @@ public class GUI
 
         final GraphicsAPI api = new GraphicsAPI(WIDTH, HEIGHT, "Train Simulator 2016");
 
+        //state variables
+        boolean loadingPassengers = false;
+
+
         new Thread(){
 
             public void run()
