@@ -47,31 +47,38 @@ public class Main {
 		
 		// move trains to next station
 		// disembark people who arrived at destination
-		//not sure about its but ok
-		for(Train trainGeneric = trainA ; trainGeneric!=null;){
-			// if headed right
-			if (trainGeneric.getDirection().equals(Direction.RIGHT)){
-				
-				if (trainGeneric.getLocation()==(routeLength-1)){
-					trainGeneric.setDirection(Direction.LEFT);
-					trainGeneric.setLocation(trainGeneric.getLocation()-1);
-				}
-				else{
-					trainGeneric.setLocation(trainGeneric.getLocation()+1);
-				}
-			}
-			//if headed left
-			if (trainGeneric.getDirection().equals(Direction.LEFT)){
-				//if at end of track
-				if (trainGeneric.getLocation()==(0)){
-					trainGeneric.setDirection(Direction.RIGHT);
-					trainGeneric.setLocation(trainGeneric.getLocation()+1);
-				}
-				else{
-					trainGeneric.setLocation(trainGeneric.getLocation()-1);
-				}
-			}
+		
+		
+		//primary loop
+		while (true){
 			
+			for(Train trainGeneric = trainA ; trainGeneric!=null; trainGeneric= trainB){
+				// if headed right
+				if (trainGeneric.getDirection().equals(Direction.RIGHT)){
+					
+					if (trainGeneric.getLocation()==(routeLength-1)){
+						trainGeneric.setDirection(Direction.LEFT);
+						trainGeneric.setLocation(trainGeneric.getLocation()-1);
+					}
+					else{
+						trainGeneric.setLocation(trainGeneric.getLocation()+1);
+					}
+				}
+				//if headed left
+				if (trainGeneric.getDirection().equals(Direction.LEFT)){
+					//if at end of track
+					if (trainGeneric.getLocation()==(0)){
+						trainGeneric.setDirection(Direction.RIGHT);
+						trainGeneric.setLocation(trainGeneric.getLocation()+1);
+					}
+					else{
+						trainGeneric.setLocation(trainGeneric.getLocation()-1);
+					}
+				}
+				if (trainGeneric.equals(trainB)){
+					trainGeneric=null;
+				}	
+			}
 		}
 		// disenbark people who arrived at destination
 		// fill train with people from que
