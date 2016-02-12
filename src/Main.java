@@ -1,19 +1,24 @@
 package src;
 
+import src.gui.GUI;
+
 public class Main {
+	public static Train trainA;
+	static Train trainB;
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws Exception
+	{
 		//specify size of route
 		final int routeLength = 5;
 		
+		trainA = new Train(0);
+		trainB = new Train(routeLength-1);
+		
+		GUI gui = new GUI(routeLength);
+
+		
 		//create route
-		final TrainRoute route = new TrainRoute(routeLength);
-		
-		// place 2 trains at start and end
-		Train trainA = new Train(0);
-		Train trainB = new Train(routeLength-1);
-		
+		final TrainRoute route = new TrainRoute(routeLength);		
 		
 		// generate people to fill stations (different thread)
 		//every 200 milliseconds (5 times per second) a person will be placed in a random queue

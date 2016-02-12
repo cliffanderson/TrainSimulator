@@ -1,6 +1,9 @@
 package src.gui;
 
 import javax.imageio.ImageIO;
+
+import src.Main;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -74,7 +77,7 @@ public class GUI
 
 
                     //draw train
-                    g.drawImage(trainImage, 75, 20, null);
+                    g.drawImage(trainImage, Main.trainA.getLocation() * (WIDTH/stations), 20, null);
 
                     //draw any passengers
 
