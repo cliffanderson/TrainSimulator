@@ -4,23 +4,21 @@ import java.util.PriorityQueue;
 public class Station {
 
 	public Station(int count){
-		WaitLine= new PriorityQueue<Passenger>();
-		ID=count;
+		waitLine= new PriorityQueue<Passenger>();
+		id=count;
 	}
-	public void BoardPassenger(){
-		//pop top member of que of que and load to train
+	public void boardPassenger(){
+		//pop top member of que and load to train
 	}
-	public void DesembarkPassenger(){
-		//remove passengers from train who's destination==station id
-	}
+	
 	public PriorityQueue<Passenger> getLine(){
-		return WaitLine;
+		return waitLine;
 	}
 	public int getID(){
-		return ID;
+		return id;
 	}
 	
 boolean trainPresent;
-private PriorityQueue<Passenger> WaitLine;
-private int ID;
+private PriorityQueue<Passenger> waitLine;
+private int id;
 }

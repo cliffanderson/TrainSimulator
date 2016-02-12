@@ -12,9 +12,13 @@ public class GUI
 {
     public static final int WIDTH = 1400;
     public static final int HEIGHT = 400;
-
-    public static void main(String[] args) throws Exception{
-        new GUI(5);
+    
+    //boolean to keep track of when the gui is "busy" doing animations
+    private boolean ready = true;
+    
+    public boolean isReady()
+    {
+    	return this.ready;
     }
 
     public GUI(int stations) throws Exception

@@ -1,9 +1,11 @@
 package src;
 public class Passenger {
-	public Passenger(){// arges num of stations
-		//rgn start location and destination
+	public Passenger(TrainRoute route)
+	{
+		//randomly generate their destination
+		this.destination = (int) (Math.random() * route.getNumStations());
 	}
-// locattion
-//destination 
-
+	
+	//Destination station ID
+	private int destination;
 }

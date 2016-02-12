@@ -2,6 +2,7 @@ package src;
 import java.util.Arrays;
 
 public class TrainRoute {
+	
 	public TrainRoute(int NumofStations){
 		// generate a list of stations 
 		
@@ -11,8 +12,14 @@ public class TrainRoute {
 			route[i]= new Station(i);
 		}
 	}
-	public Station getRoute(int i){
+	
+	public Station getStation(int i){
 		return route[i];
+	}
+	
+	public int getNumStations()
+	{
+		return this.route.length;
 	}
 	
 private Station[] route;
