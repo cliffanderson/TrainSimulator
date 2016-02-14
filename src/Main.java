@@ -4,7 +4,7 @@ import src.gui.GUI;
 
 public class Main {
 	public static Train trainA;
-	static Train trainB;
+	public static Train trainB;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -12,7 +12,9 @@ public class Main {
 		final int routeLength = 5;
 		
 		trainA = new Train(0);
+		trainA.setDirection(Direction.RIGHT);
 		trainB = new Train(routeLength-1);
+		trainB.setDirection(Direction.LEFT);
 		
 		GUI gui = new GUI(routeLength);
 
@@ -56,8 +58,17 @@ public class Main {
 		
 		//primary loop
 		while (true){
+			//make sure gui is not busy
+			System.out.println(GUI.ready);
+			if(!GUI.ready)
+			{
+				Thread.sleep(50);
+				continue;
+			}
+			Train[] trains = {trainA, trainB};
 			
-			for(Train trainGeneric = trainA ; trainGeneric!=null; trainGeneric= trainB){
+			for(int i = 0; i < 2; i++){
+				Train trainGeneric = trains[i];
 				// if headed right
 				if (trainGeneric.getDirection().equals(Direction.RIGHT)){
 					

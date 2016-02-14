@@ -2,6 +2,9 @@ package src.gui;
 
 import javax.imageio.ImageIO;
 
+
+
+import src.Direction;
 import src.Main;
 
 import java.awt.*;
@@ -17,12 +20,13 @@ public class GUI
     public static final int HEIGHT = 400;
     
     //boolean to keep track of when the gui is "busy" doing animations
-    private boolean ready = true;
+    public static boolean ready = true;
     
-    public boolean isReady()
-    {
-    	return this.ready;
-    }
+    public static int trainAOffset = 0;
+    public static int trainBOffset = 0;
+    
+    public static int lastTrainALocation = Main.trainA.getLocation();
+    public static int lastTrainBLocation = Main.trainB.getLocation();
 
     public GUI(int stations) throws Exception
     {
@@ -74,10 +78,55 @@ public class GUI
 
                     //draw background
                     g.drawImage(background, 0, 0, null);
+                    
+                    
+                    //check if trains have moved. If they have, slowly increase offset and make GUI busy
+                    if(lastTrainALocation != Main.trainA.getLocation())
+                    {
+                    	//train A has moved
+                    	GUI.ready = false;
+                    	trainAOffset += Main.trainA.getDirection() == Direction.LEFT ? -1 : 1;
+                    }                   
+                    
+                    if(lastTrainBLocation != Main.trainB.getLocation())
+                    {
+                    	//train B has moved
+                    	GUI.ready = false;
+                    	trainBOffset += Main.trainB.getDirection() == Direction.LEFT ? -1 : 1;
+
+                    }
+                    
+                    
+                    
+                    
+                    //but if offset == LENGTH/stationCount, stop moving train
+                    if(trainAOffset == WIDTH/stations)
+                    {
+                    	lastTrainALocation = Main.trainA.getLocation();
+                    }
+                    
+                    if(trainBOffset == WIDTH/stations)
+                    {
+                    	lastTrainBLocation = Main.trainB.getLocation();
+                    }
+                    
+                    
+                    
+                    
+                    //if both trains haven't moved then set GUI to ready
+                    if(lastTrainALocation == Main.trainA.getLocation() &&
+                       lastTrainBLocation == Main.trainB.getLocation())
+                    {
+                    	GUI.ready = true;
+                    }
+                    	
+                    
+                    
 
 
                     //draw train
-                    g.drawImage(trainImage, Main.trainA.getLocation() * (WIDTH/stations), 20, null);
+                    g.drawImage(trainImage, Main.trainA.getLocation() * (WIDTH/stations) + trainAOffset, 20, null);
+                    //g.drawImage(trainImage, Main.trainB.getLocation() * (WIDTH/stations) + trainBOffset, 220, null);
 
                     //draw any passengers
 
