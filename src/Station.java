@@ -1,7 +1,5 @@
 package src;
-import java.util.LinkedList;
-import java.util.Queue;
-
+import ADT.QueueArray;
 import train.Passenger;
 
 public class Station
@@ -9,24 +7,24 @@ public class Station
 
 	public Station(int count)
 	{
-		waitLine= new LinkedList<Passenger>();
+		waitLine= new QueueArray<Passenger>();
 		id=count;
 	}
 
 	public Passenger removeFirstInLine()
 	{
 		//pop top member of que and load to train
-		return waitLine.poll();
+		return waitLine.dequeue();
+	}
+	
+	public void enqueuePassenger(Passenger p)
+	{
+		this.waitLine.enqueue(p);
 	}
 
 	public boolean lineNotEmpty()
 	{
-		return waitLine.size() != 0;
-	}
-
-	public Queue<Passenger> getLine()
-	{
-		return waitLine;
+		return !waitLine.isEmpty();
 	}
 
 	public int getID()
@@ -35,6 +33,6 @@ public class Station
 	}
 
 	boolean trainPresent;
-	private Queue<Passenger> waitLine;
+	private QueueArray<Passenger> waitLine;
 	private int id;
 }

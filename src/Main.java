@@ -141,7 +141,8 @@ public class Main
 				{
 					//put someone in a queue at a random station
 					int station = (int) (Math.random() * ROUTE_LENGTH);
-					route.getStation(station).getLine().add(new Passenger(route));
+					Station s = route.getStation(station);
+					s.enqueuePassenger((new Passenger(route)));
 					//System.out.println("Placed passenger at station: " + station);
 					try
 					{
