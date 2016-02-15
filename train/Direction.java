@@ -1,3 +1,3 @@
-package src;
+package train;
 
 public enum Direction{LEFT, RIGHT}

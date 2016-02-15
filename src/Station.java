@@ -1,24 +1,40 @@
 package src;
-import java.util.PriorityQueue;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class Station {
+import train.Passenger;
 
-	public Station(int count){
-		waitLine= new PriorityQueue<Passenger>();
+public class Station
+{
+
+	public Station(int count)
+	{
+		waitLine= new LinkedList<Passenger>();
 		id=count;
 	}
-	public void boardPassenger(){
+
+	public Passenger removeFirstInLine()
+	{
 		//pop top member of que and load to train
+		return waitLine.poll();
 	}
-	
-	public PriorityQueue<Passenger> getLine(){
+
+	public boolean lineNotEmpty()
+	{
+		return waitLine.size() != 0;
+	}
+
+	public Queue<Passenger> getLine()
+	{
 		return waitLine;
 	}
-	public int getID(){
+
+	public int getID()
+	{
 		return id;
 	}
-	
-boolean trainPresent;
-private PriorityQueue<Passenger> waitLine;
-private int id;
+
+	boolean trainPresent;
+	private Queue<Passenger> waitLine;
+	private int id;
 }
