@@ -63,11 +63,11 @@ public class Main
 	private static void moveTrain(Train trainGeneric)
 	{
 		// if headed right
-		if (trainGeneric.getDirection().equals(Direction.RIGHT))
+		if (trainGeneric.getDirection().equals(Direction.OUTBOUND))
 		{
 			if (trainGeneric.getLocation()==(ROUTE_LENGTH-1))
 			{
-				trainGeneric.setDirection(Direction.LEFT);
+				trainGeneric.setDirection(Direction.INBOUND);
 				trainGeneric.setLocation(trainGeneric.getLocation()-1);
 			}
 			else
@@ -80,7 +80,7 @@ public class Main
 			//if at end of track
 			if (trainGeneric.getLocation()==(0))
 			{
-				trainGeneric.setDirection(Direction.RIGHT);
+				trainGeneric.setDirection(Direction.OUTBOUND);
 				trainGeneric.setLocation(trainGeneric.getLocation()+1);
 			}
 			else
@@ -94,16 +94,37 @@ public class Main
 	{
 		while(train.getSize() < train.getCapacity())
 		{
-			//while train has space board people onto train
-			if(route.getStation(train.getLocation()).lineNotEmpty())
+			if(train.getDirection() == Direction.OUTBOUND)
 			{
-				train.boadTrain(route.getStation(train.getLocation()).removeFirstInLine());
+				//while train has space board people onto train
+				if(!route.getStation(train.getLocation()).outboundEmpty())
+				{
+					train.boadTrain(route.getStation(train.getLocation()).getFromOutboundLine());
+				}
+				else
+				{
+					//no one left in line
+					break;
+				}
 			}
 			else
 			{
-				//no one left in line
-				break;
+				//while train has space board people onto train
+				if(!route.getStation(train.getLocation()).inboundEmpty())
+				{
+					train.boadTrain(route.getStation(train.getLocation()).getFromInboundLine());
+				}
+				else
+				{
+					//no one left in line
+					break;
+				}
 			}
+			
+			
+			
+			
+			
 		}
 	}
 
@@ -113,6 +134,11 @@ public class Main
 		List<Passenger> toGetOff = new ArrayList<Passenger>();
 		for(Passenger passenger : train.getPassengers())
 		{
+			System.out.println("======================");
+			System.out.println(passenger);
+			System.out.println(passenger.getDestination());
+			System.out.println(train);
+			System.out.println(train.getLocation());
 			if(passenger.getDestination() == train.getLocation())
 			{
 				//passenger is at destination so remove them from train
@@ -142,7 +168,7 @@ public class Main
 					//put someone in a queue at a random station
 					int station = (int) (Math.random() * ROUTE_LENGTH);
 					Station s = route.getStation(station);
-					s.enqueuePassenger((new Passenger(route)));
+					s.enqueuePassenger((new Passenger(route, s)));
 					//System.out.println("Placed passenger at station: " + station);
 					try
 					{

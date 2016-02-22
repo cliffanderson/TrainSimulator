@@ -13,11 +13,11 @@ public class Train
 		
 		if(location==0)
 		{
-			this.direction=Direction.RIGHT;	
+			this.direction=Direction.OUTBOUND;	
 		}
 		else
 		{
-			this.direction=Direction.LEFT;	
+			this.direction=Direction.INBOUND;	
 		}
 	}
 	public int getCapacity()

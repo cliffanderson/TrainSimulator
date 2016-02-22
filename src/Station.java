@@ -7,24 +7,44 @@ public class Station
 
 	public Station(int count)
 	{
-		waitLine= new QueueArray<Passenger>();
+		inboundQueue = new QueueArray<Passenger>();
+		outboundQueue = new QueueArray<Passenger>();
 		id=count;
 	}
 
-	public Passenger removeFirstInLine()
+	public Passenger getFromInboundLine()
 	{
-		//pop top member of que and load to train
-		return waitLine.dequeue();
+		//pop top member of queue and load to train
+		return this.inboundQueue.dequeue();
+	}
+	
+	public Passenger getFromOutboundLine()
+	{
+		//pop top member of queue and loan to train
+		return this.outboundQueue.dequeue();
 	}
 	
 	public void enqueuePassenger(Passenger p)
 	{
-		this.waitLine.enqueue(p);
+		//determine which queue to put passengers in
+		if(p.getDestination() > this.id)
+		{
+			this.outboundQueue.enqueue(p);
+		}
+		else //id and destination will not be equal due to passenger constructor
+		{
+			this.inboundQueue.enqueue(p);
+		}
 	}
 
-	public boolean lineNotEmpty()
+	public boolean inboundEmpty()
 	{
-		return !waitLine.isEmpty();
+		return this.inboundQueue.isEmpty();
+	}
+	
+	public boolean outboundEmpty()
+	{
+		return this.outboundQueue.isEmpty();
 	}
 
 	public int getID()
@@ -33,6 +53,6 @@ public class Station
 	}
 
 	boolean trainPresent;
-	private QueueArray<Passenger> waitLine;
+	private QueueArray<Passenger> inboundQueue, outboundQueue;
 	private int id;
 }
