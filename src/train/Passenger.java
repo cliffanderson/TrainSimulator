@@ -1,6 +1,6 @@
 package train;
 
-import src.TrainRoute;
+import main.TrainRoute;
 
 public class Passenger
 {

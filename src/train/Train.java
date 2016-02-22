@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Train
 {
-	
+
+
 	public Train(int location, int capacity)
 	{
 		passengers=new ArrayList<Passenger>();
@@ -37,6 +38,7 @@ public class Train
 	
 	public void setLocation(int newLocal)
 	{
+		lastLocation=location;
 		location=newLocal;
 	}
 	
@@ -45,7 +47,7 @@ public class Train
 		return passengers;
 	}
 	
-	public void boadTrain(Passenger newPassenger)
+	public void boardTrain(Passenger newPassenger)
 	{
 		passengers.add(newPassenger);
 	}
@@ -59,8 +61,49 @@ public class Train
 	{
 		direction=newDir;
 	}
-	
-	private int location, capacity;
+
+	public int getLastLocation()
+	{
+		return lastLocation;
+	}
+	public long getDepartureTime()
+	{
+		return departureTime;
+	}
+	public void stopped()
+	{
+		moving=false;
+	}
+	public void move()
+	{
+		departureTime=System.currentTimeMillis();
+		moving=true;
+	}
+	public boolean isMoving()
+	{
+		return moving;
+	}
+	public void changePos(double pos)
+	{
+		if(direction==Direction.RIGHT)
+		{
+			this.pos=this.pos+pos;
+		}
+		else
+		{
+			this.pos=this.pos-pos;
+		}
+		System.out.println(pos);
+	}
+	public double getPos()
+	{
+		return pos;
+	}
+
+	private boolean moving=false;
+	private long departureTime=0;
+	private double pos;
+	private int location, capacity,lastLocation;
 	private Direction direction;
 	// max capacity
 	private ArrayList<Passenger> passengers;
