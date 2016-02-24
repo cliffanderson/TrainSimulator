@@ -264,9 +264,13 @@ public class Main
 
         g.setColor(Color.RED);
        // Train t1=trains[0];
+		int spot=0;
         for(int x=0;x<trains.length;x++)
         {
-
+			if(x==1)
+			{
+				spot=50;
+			}
             Train t = trains[x];
             if (t.isMoving()) {
                 long currentTime = System.currentTimeMillis();
@@ -288,7 +292,7 @@ public class Main
                 g.fillRect((t.getLocation() * 300) + 80, 210+spot, 30, 20);
             }
         }
-        int spot=0;
+
        /* for(Train t:trains) {
 
             if (t.isMoving()) {
