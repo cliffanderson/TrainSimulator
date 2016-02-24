@@ -14,11 +14,11 @@ public class Train
 		
 		if(location==0)
 		{
-			this.direction=Direction.RIGHT;	
+			this.direction=Direction.OUTBOUND;	
 		}
 		else
 		{
-			this.direction=Direction.LEFT;	
+			this.direction=Direction.INBOUND;	
 		}
 	}
 	public int getCapacity()
@@ -85,7 +85,8 @@ public class Train
 	}
 	public void changePos(double pos)
 	{
-		if(direction==Direction.RIGHT)
+
+		if(direction==Direction.OUTBOUND)
 		{
 			this.pos=this.pos+pos;
 		}
@@ -93,7 +94,6 @@ public class Train
 		{
 			this.pos=this.pos-pos;
 		}
-		System.out.println(pos);
 	}
 	public double getPos()
 	{

@@ -1,3 +1,3 @@
 package train;
 
-public enum Direction{LEFT, RIGHT}
+public enum Direction{INBOUND, OUTBOUND}

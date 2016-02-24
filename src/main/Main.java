@@ -76,11 +76,11 @@ public class Main
 	private static void moveTrain(Train trainGeneric)
 	{
 		// if headed right
-		if (trainGeneric.getDirection().equals(Direction.RIGHT))
+		if (trainGeneric.getDirection().equals(Direction.OUTBOUND))
 		{
 			if (trainGeneric.getLocation()==(ROUTE_LENGTH-1))
 			{
-				trainGeneric.setDirection(Direction.LEFT);
+				trainGeneric.setDirection(Direction.INBOUND);
 				trainGeneric.setLocation(trainGeneric.getLocation()-1);
 			}
 			else
@@ -93,7 +93,7 @@ public class Main
 			//if at end of track
 			if (trainGeneric.getLocation()==(0))
 			{
-				trainGeneric.setDirection(Direction.RIGHT);
+				trainGeneric.setDirection(Direction.OUTBOUND);
 				trainGeneric.setLocation(trainGeneric.getLocation()+1);
 			}
 			else
@@ -108,14 +108,22 @@ public class Main
 		while(train.getSize() < train.getCapacity())
 		{
 			//while train has space board people onto train
-			if(route.getStation(train.getLocation()).lineNotEmpty())
-			{
-				train.boardTrain(route.getStation(train.getLocation()).removeFirstInLine());
+			if(train.getDirection() == Direction.INBOUND) {
+				if (!route.getStation(train.getLocation()).inboundEmpty()) {
+					train.boardTrain(route.getStation(train.getLocation()).getFromInboundLine());
+				} else {
+					//no one left in line
+					break;
+				}
 			}
 			else
 			{
-				//no one left in line
-				break;
+				if (!route.getStation(train.getLocation()).outboundEmpty()) {
+					train.boardTrain(route.getStation(train.getLocation()).getFromOutboundLine());
+				} else {
+					//no one left in line
+					break;
+				}
 			}
 		}
 	}
@@ -155,7 +163,7 @@ public class Main
 					//put someone in a queue at a random station
 					int station = (int) (Math.random() * ROUTE_LENGTH);
 					Station s = route.getStation(station);
-					s.enqueuePassenger((new Passenger(route)));
+					s.enqueuePassenger((new Passenger(route, s)));
 					//System.out.println("Placed passenger at station: " + station);
 					try
 					{
@@ -233,21 +241,55 @@ public class Main
             //the people
             g.setColor(Color.MAGENTA);
             int mod=0;
-            for(int y=0;y<station.queSize();y++)
+            for(int y=0;y<station.inQueSize();y++)
             {
-                if(y%15==0)
+                if(y%6==0)
                 {
                     mod++;
                 }
-                g.fillRect((xPos+((y-(mod*15))*6))+90,(yPos-5)-(mod*6),5,5);
+				g.fillRect((xPos+((y-(mod*6))*6))+37,(yPos-5)-(mod*6),5,5);
+               // g.fillRect((xPos+((y-(mod*15))*6))+90,(yPos+90)+(mod*6),5,5);
             }
+			mod=0;
+			for(int y=0;y<station.outQueSize();y++)
+			{
+				if(y%6==0)
+				{
+					mod++;
+				}
+				g.fillRect((xPos+((y-(mod*6))*6))+90,(yPos-5)-(mod*6),5,5);
+			}
 
         }
 
         g.setColor(Color.RED);
        // Train t1=trains[0];
+        for(int x=0;x<trains.length;x++)
+        {
+
+            Train t = trains[x];
+            if (t.isMoving()) {
+                long currentTime = System.currentTimeMillis();
+                t.changePos(3000/moveSpeed);
+                // int xPos=((t.getLastLocation()*300)+80)-((int)(t.getDepartureTime()/currentTime))*300;
+                //int xPos = ((int)(t.getDepartureTime()-currentTime))*300;
+                // System.out.println(xPos);
+                if(t.getDirection()==Direction.INBOUND)
+                {
+                    g.fillRect(((int)t.getPos())+80+(t.getLastLocation()*300),210+spot,30,20);
+                }
+                else if(t.getDirection()==Direction.OUTBOUND)
+                {
+                    g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
+                }
+                //g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
+
+            } else {
+                g.fillRect((t.getLocation() * 300) + 80, 210+spot, 30, 20);
+            }
+        }
         int spot=0;
-        for(Train t:trains) {
+       /* for(Train t:trains) {
 
             if (t.isMoving()) {
                 long currentTime = System.currentTimeMillis();
@@ -255,20 +297,21 @@ public class Main
                // int xPos=((t.getLastLocation()*300)+80)-((int)(t.getDepartureTime()/currentTime))*300;
                 //int xPos = ((int)(t.getDepartureTime()-currentTime))*300;
                // System.out.println(xPos);
-				if(t.getDirection()==Direction.RIGHT)
+				if(t.getDirection()==Direction.INBOUND)
 				{
 					g.fillRect(((int)t.getPos())+80+(t.getLastLocation()*300),210+spot,30,20);
 				}
-				else
+				else if(t.getDirection()==Direction.OUTBOUND)
 				{
 					g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
 				}
+				//g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
 
             } else {
                 g.fillRect((t.getLocation() * 300) + 80, 210+spot, 30, 20);
             }
             spot=50;
-        }
+        }*/
 
       //  g.fillRect((trains[1].getLocation()*300)+50,260,30,20);
 
