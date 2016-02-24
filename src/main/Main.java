@@ -16,22 +16,12 @@ public class Main
 	//specify size of route
 	static final int ROUTE_LENGTH = 5;
 	static TrainRoute route;
-   static Train trainA = new Train(0, 100);
-    static Train trainB = new Train(ROUTE_LENGTH-1, 100);
 
-    static Train[] trains = {trainA, trainB};
-	static long moveSpeed=1000;
+    static Train[] trains = {new Train(0, 100), new Train(ROUTE_LENGTH-1, 100)};
+	static long moveSpeed=1000*5;
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("Train Simulator 5000");
-
-		//create two trains, passing the start location and capacity
-		Train trainA = new Train(0, 100);
-		Train trainB = new Train(ROUTE_LENGTH-1, 100);
-
-		//Array to hold the trains
-		//trains = {trainA, trainB};
-
 
 		//create route
 		route = new TrainRoute(ROUTE_LENGTH);		
@@ -49,7 +39,7 @@ public class Main
 			{
 				//get a train from array
 				Train trainGeneric = trains[i];
-                trainGeneric.stopped();
+
                 Thread.sleep(500);
 				//remove passengers who are at their stop
 				removePassengersFromTrain(trainGeneric);
@@ -58,18 +48,20 @@ public class Main
 				loadPassengersOnToTrain(trainGeneric);
                 Thread.sleep(500);
                 trainGeneric.move();
-				//move trains along their tracks
+                try
+                {
+                    Thread.sleep(moveSpeed);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                trainGeneric.stopped();
+                //move trains along their tracks
 				moveTrain(trainGeneric);
 			}
 
-			try
-			{
-				Thread.sleep(moveSpeed);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
+
 		}
 	}
 
@@ -161,7 +153,7 @@ public class Main
 					//System.out.println("Placed passenger at station: " + station);
 					try
 					{
-						Thread.sleep(50);
+						Thread.sleep(90);
 					}
 					catch(Exception e)
 					{
@@ -219,9 +211,6 @@ public class Main
         //bottom line
         g.fillRect(95,260,1200,20);
 
-
-
-
         for(int x=0;x<route.getNumStations();x++)
         {
             //the stations
@@ -230,7 +219,6 @@ public class Main
             Station station = route.getStation(x);
             g.setColor(station.getColor());
             g.fillRect(xPos,yPos,90,90);
-
 
             //the people
             g.setColor(Color.MAGENTA);
@@ -242,7 +230,6 @@ public class Main
                     mod++;
                 }
 				g.fillRect((xPos+((y-(mod*6))*6))+37,(yPos-5)-(mod*6),5,5);
-               // g.fillRect((xPos+((y-(mod*15))*6))+90,(yPos+90)+(mod*6),5,5);
             }
 			mod=0;
 			for(int y=0;y<station.outQueSize();y++)
@@ -253,65 +240,29 @@ public class Main
 				}
 				g.fillRect((xPos+((y-(mod*6))*6))+90,(yPos-5)-(mod*6),5,5);
 			}
-
         }
 
+        //the trains
         g.setColor(Color.RED);
-       // Train t1=trains[0];
-		int spot=0;
+		int yOffset=0;
+        int speed = (int)(300/(moveSpeed/100));
         for(int x=0;x<trains.length;x++)
         {
 			if(x==1)
 			{
-				spot=50;
+				yOffset=50;
 			}
             Train t = trains[x];
             if (t.isMoving()) {
-                long currentTime = System.currentTimeMillis();
-                t.changePos(3000/moveSpeed);
-                // int xPos=((t.getLastLocation()*300)+80)-((int)(t.getDepartureTime()/currentTime))*300;
-                //int xPos = ((int)(t.getDepartureTime()-currentTime))*300;
-                // System.out.println(xPos);
-                if(t.getDirection()==Direction.INBOUND)
-                {
-                    g.fillRect(((int)t.getPos())+80+(t.getLastLocation()*300),210+spot,30,20);
-                }
-                else if(t.getDirection()==Direction.OUTBOUND)
-                {
-                    g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
-                }
-                //g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
 
-            } else {
-                g.fillRect((t.getLocation() * 300) + 80, 210+spot, 30, 20);
+                t.changePos(speed);
             }
+            else
+            {
+                t.resetPos();
+            }
+            g.fillRect((t.getLocation() * 300) + 80+t.getXPosition(), 210+yOffset, 30, 20);
         }
-
-       /* for(Train t:trains) {
-
-            if (t.isMoving()) {
-                long currentTime = System.currentTimeMillis();
-				t.changePos(3000/moveSpeed);
-               // int xPos=((t.getLastLocation()*300)+80)-((int)(t.getDepartureTime()/currentTime))*300;
-                //int xPos = ((int)(t.getDepartureTime()-currentTime))*300;
-               // System.out.println(xPos);
-				if(t.getDirection()==Direction.INBOUND)
-				{
-					g.fillRect(((int)t.getPos())+80+(t.getLastLocation()*300),210+spot,30,20);
-				}
-				else if(t.getDirection()==Direction.OUTBOUND)
-				{
-					g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
-				}
-				//g.fillRect(((int)t.getPos())+80+(t.getLocation()*300),210+spot,30,20);
-
-            } else {
-                g.fillRect((t.getLocation() * 300) + 80, 210+spot, 30, 20);
-            }
-            spot=50;
-        }*/
-
-      //  g.fillRect((trains[1].getLocation()*300)+50,260,30,20);
 
         g.dispose();
         bs.show();

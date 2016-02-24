@@ -38,7 +38,6 @@ public class Train
 	
 	public void setLocation(int newLocal)
 	{
-		lastLocation=location;
 		location=newLocal;
 	}
 	
@@ -61,49 +60,41 @@ public class Train
 	{
 		direction=newDir;
 	}
-
-	public int getLastLocation()
-	{
-		return lastLocation;
-	}
-	public long getDepartureTime()
-	{
-		return departureTime;
-	}
+	
 	public void stopped()
 	{
 		moving=false;
 	}
 	public void move()
 	{
-		departureTime=System.currentTimeMillis();
 		moving=true;
 	}
 	public boolean isMoving()
 	{
 		return moving;
 	}
-	public void changePos(double pos)
+	public void changePos(int pos)
 	{
-
 		if(direction==Direction.OUTBOUND)
 		{
-			this.pos=this.pos+pos;
+			this.xPosition = this.xPosition + pos;
 		}
 		else
 		{
-			this.pos=this.pos-pos;
+			this.xPosition = this.xPosition - pos;
 		}
 	}
-	public double getPos()
+	public void resetPos()
 	{
-		return pos;
+		xPosition = 0;
+	}
+	public int getXPosition()
+	{
+		return xPosition;
 	}
 
 	private boolean moving=false;
-	private long departureTime=0;
-	private double pos;
-	private int location, capacity,lastLocation;
+	private int location, capacity,xPosition;
 	private Direction direction;
 	// max capacity
 	private ArrayList<Passenger> passengers;
