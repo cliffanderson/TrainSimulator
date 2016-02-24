@@ -78,27 +78,21 @@ public class Main
 		// if headed right
 		if (trainGeneric.getDirection().equals(Direction.OUTBOUND))
 		{
+			trainGeneric.setLocation(trainGeneric.getLocation()+1);
+
 			if (trainGeneric.getLocation()==(ROUTE_LENGTH-1))
 			{
 				trainGeneric.setDirection(Direction.INBOUND);
-				trainGeneric.setLocation(trainGeneric.getLocation()-1);
-			}
-			else
-			{
-				trainGeneric.setLocation(trainGeneric.getLocation()+1);
 			}
 		}
 		else //headed left
 		{
+			trainGeneric.setLocation(trainGeneric.getLocation()-1);
+
 			//if at end of track
 			if (trainGeneric.getLocation()==(0))
 			{
 				trainGeneric.setDirection(Direction.OUTBOUND);
-				trainGeneric.setLocation(trainGeneric.getLocation()+1);
-			}
-			else
-			{
-				trainGeneric.setLocation(trainGeneric.getLocation()-1);
 			}
 		}
 	}
@@ -180,8 +174,8 @@ public class Main
 
    // @Override
     public static void makeFrame() {
-        Canvas canvas = new Canvas();
-        JFrame frame = new JFrame("Train Simulator 5000");
+       final Canvas canvas = new Canvas();
+        final JFrame frame = new JFrame("Train Simulator 5000");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(canvas,BorderLayout.CENTER);
